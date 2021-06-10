@@ -2,7 +2,7 @@ const axios = require('axios').default;
 const path = require('path');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const get = (username, password, service, call, objectFilter, objectMask, resultLimit) => {
   const url = `https://api.softlayer.com/rest/v3.1/SoftLayer_${service}/${call}.json`;
   console.log(url);
@@ -38,7 +38,7 @@ app.post('/post', async (req, res) => {
     const brands = await get(username, apikey, 'Account','getOwnedBrands');
     const result = [];
     for (brand of brands.data) {
-      const objectMask = `mask[id,companyName,nextInvoiceTotalAmount,nextInvoiceTopLevelBillingItems]`;
+      const objectMask = `mask[id,companyName,nextInvoiceTopLevelBillingItems]`;
       const accounts = await get(username, apikey, `Brand/${brand.id}`,'getOwnedAccounts','',objectMask);
       result.push(accounts.data);
     }
