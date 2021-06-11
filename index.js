@@ -51,3 +51,11 @@ app.post('/post', async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+process.on('SIGTERM', () => {
+  console.log('Stopping server.');
+  app.close(() => {
+      console.log('Server stopped.');
+      process.exit(0);
+  });
+});
